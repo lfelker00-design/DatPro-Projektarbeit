@@ -1,0 +1,43 @@
+# DatPro Projektarbeit, Modul "Bewegungsgleichung", welches die Bewegungsgleichung löst, um den richtigen Schub für die Mondladungung zu finden, erstellt von Liam Felker 19.08.2026
+
+
+# Numerisches Berechnen der Bewegungsgleichung
+
+# Python Module importieren
+import numpy as np
+import scipy.integrate as scint
+import matplotlib.pyplot as plt
+import DatPro_Projekt_constants as const 
+
+# Funktion der Bewegungsdifferentialgleichung für die Simulation der Bahn zur Ladung auf dem Mond
+def dgl(s, t): 
+    x, y, v_x, v_y = s # Statevektor
+    r = np.sqrt(x**2 + y**2) # Abstand der Erde von der Sonne
+    T_1 = T * np.cos(alpha)
+    T_2 = T * np.sin(alpha)
+    a_x = - ( const.GM_mond * x / r**3 ) - T_1 / m_t  # Berechnung der DGL für die x-Werte 
+    a_y = - ( const.GM_mond * y / r**3 ) - T_2 / m_t  # Berechnung der DGL für die y-Werte 
+    return [v_x, v_y, a_x, a_y] 
+
+
+# Plotten der Landebahn
+
+# Anfangsbedingungen
+
+x_0 = 0 # Radiusvektor r an der Stelle x bei t = 0, Einheit in m
+y_0 = 1752600 # Radiusvektor r an der Stelle y bei t = 0, Einheit in m
+v_x0 = 1694.7 # Geschwindigkeit v an der Stelle x bei t = 0, Einheit m/s
+v_y0 = 0 # Geschwindigkeit v an der Stelle y bei t = 0, Einheit m/s
+
+
+s0 = [x_0, y_0, v_x0, v_y0] # Statevektor mit Anfangsbedingungen
+t = np.linspace(0, 1030, 100) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
+
+
+z = scint.odeint(dgl, s0, t) # numerisches Lösen der DGL
+plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
+plt.xlabel("x [m]")
+plt.ylabel("y [m]")
+plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
+plt.axis("equal")
+plt.show()
