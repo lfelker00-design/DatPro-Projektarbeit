@@ -1,0 +1,27 @@
+# DatPro Projektarbeit, Modul "Schub", welches den Schub regelt für die Mondladungung, erstellt von Liam Felker 20.08.2026
+
+
+# Python Module importieren
+import numpy as np
+import scipy.integrate as scint
+import matplotlib.pyplot as plt
+import DatPro_Projekt_constants as const 
+
+
+# Funktion des Schubs, um eine kontrolliere Landung zu simulieren
+
+def schub(t, a):
+    tau = t / t_max # Normierung von τ = t/tmax damit die Argumente des Polynoms auf das Intervall [0, 1] beschränkt sind
+
+    # Parametrisierung durch Bernstein Polynome der Kostenfunktion für den richtigen Schub
+    b_02 = (1-tau)**2 # Bernstein Polynom mit n=2 und v=0 (v ist hier Ny)
+    b_12 = 2 * tau * (1-tau) # Bernstein Polynom mit n=2 und v=1
+    b_22 = tau**2 # Bernstein Polynom mit n=2 und v=2
+    T = a[0] * b_02 + a[1] * b_12 + a[2] * b_22 # Die Kostenfunktion mit den Bernstein Polynomen und den a_Werten aus einem Array, die später durch scipy.optimize.minimize() optimiert werden
+
+    # Nun kann der Schub durch die Kostenfunktion berechnet werden
+    alpha = 0 # Den Winkel hab ich nicht zeitabhängig gewählt, da es in der Aufgabe keine Parametrisierung angegeben war und deshalb hab ich angenommen, dass alpha konst ist und zunächst auf Null gesetzt
+    T_x = T * np.cos(alpha) # Berechnung vom zeitabhändigen Schub für die x-Werte
+    T_y = T * np.sin(alpha) # Berechnung vom zeitabhändigen Schub für die y-Werte
+
+    return T_x, T_y # Ausgabe von T_x und T_y für die DGL
