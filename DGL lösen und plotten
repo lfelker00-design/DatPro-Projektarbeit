@@ -8,15 +8,18 @@ import numpy as np
 import scipy.integrate as scint
 import matplotlib.pyplot as plt
 import DatPro_Projekt_constants as const 
+import DatPro_Projekt_Schub as schub
 
 # Funktion der Bewegungsdifferentialgleichung für die Simulation der Bahn zur Ladung auf dem Mond
 def dgl(s, t): 
     x, y, v_x, v_y = s # Statevektor
     r = np.sqrt(x**2 + y**2) # Abstand der Erde von der Sonne
-    T_1 = T * np.cos(alpha)
-    T_2 = T * np.sin(alpha)
-    a_x = - ( const.GM_mond * x / r**3 ) - T_1 / m_t  # Berechnung der DGL für die x-Werte 
-    a_y = - ( const.GM_mond * y / r**3 ) - T_2 / m_t  # Berechnung der DGL für die y-Werte 
+
+    T_x = schub.schub(t, a)
+    T_y = schub-schub(t,a)
+
+    a_x = - ( const.GM_mond * x / r**3 ) - T_x / m_t  # Berechnung der DGL für die x-Werte 
+    a_y = - ( const.GM_mond * y / r**3 ) - T_y / m_t  # Berechnung der DGL für die y-Werte 
     return [v_x, v_y, a_x, a_y] 
 
 
