@@ -11,7 +11,7 @@ import DatPro_Projekt_constants as const
 # Funktion des Schubs, um eine kontrolliere Landung zu simulieren
 
 def schub(t, a):
-    tau = t / t_max # Normierung von τ = t/tmax damit die Argumente des Polynoms auf das Intervall [0, 1] beschränkt sind
+    tau = t / const.T_max # Normierung von τ = t/tmax damit die Argumente des Polynoms auf das Intervall [0, 1] beschränkt sind
 
     # Parametrisierung durch Bernstein Polynome der Kostenfunktion für den richtigen Schub
     b_02 = (1-tau)**2 # Bernstein Polynom mit n=2 und v=0 (v ist hier Ny)
