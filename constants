@@ -1,11 +1,11 @@
-# DatPro Projektarbeit, Modul "constants", welche alle Konstanten, die für die Mondladungung gebraucht werden, beinhaltet
+# DatPro Projektarbeit, Modul "constants", welche alle Konstanten, die für die Mondladungung gebraucht werden, beinhaltet, erstellt von Liam Felker 19.08.2026
 
 t_max = 1030 # maximale Brennzeit / Simulationsdauer in s
 v_g = 3007 # Geschwindigkeit des ausgestoßenes Gases beim Schub in m/s^2
 r_mond = 1737400 # Radius des Mondes in m
-GM = 4,902301 * 10**15 # Gravitationsparameter des Mondes in m^3/s^2
-m_0 = 14993,75 # Gesamtanfangsmasse von Eagle in kg
-m_fuel0 = 7294,8 # Anfängliche Treibstoffmasse von Eagle in kg
+GM_mond = 4.902801 * 10**12 # Gravitationsparameter des Mondes in m^3/s^2
+m_0 = 14993.75 # Gesamtanfangsmasse von Eagle in kg
+m_fuel0 = 7294.8 # Anfängliche Treibstoffmasse von Eagle in kg
 T_max = 47000 # Maximalschub in N
-v_max = # maximale Landegeschwindigkeit auf den Mond
+v_max = 1 # maximale Landegeschwindigkeit auf den Mond
 t_kepler = 6856 # Orbitperiode in s
