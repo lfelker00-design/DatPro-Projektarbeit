@@ -8,19 +8,14 @@ import numpy as np
 import scipy.integrate as scint
 import matplotlib.pyplot as plt
 import DatPro_Projekt_constants as const 
-import DatPro_Projekt_Schub as schub
-
-a = [10, 100, 50]
 
 # Funktion der Bewegungsdifferentialgleichung für die Simulation der Bahn zur Ladung auf dem Mond
 def dgl(s, t): 
     x, y, v_x, v_y = s # Statevektor
     r = np.sqrt(x**2 + y**2) # Abstand der Erde von der Sonne
 
-    T_x, T_y = schub.schub(t, a)
-
-    a_x = - ( const.GM_mond * x / r**3 ) - T_x / const.m_0  # Berechnung der DGL für die x-Werte 
-    a_y = - ( const.GM_mond * y / r**3 ) - T_y / const.m_0  # Berechnung der DGL für die y-Werte 
+    a_x = - ( const.GM_mond * x / r**3 )  # Berechnung der DGL für die x-Werte 
+    a_y = - ( const.GM_mond * y / r**3 )  # Berechnung der DGL für die y-Werte 
     return [v_x, v_y, a_x, a_y] 
 
 
@@ -35,13 +30,13 @@ v_y0 = 0 # Geschwindigkeit v an der Stelle y bei t = 0, Einheit m/s
 
 
 s0 = [x_0, y_0, v_x0, v_y0] # Statevektor mit Anfangsbedingungen
-t = np.linspace(0, 1030, 100) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
+t = np.linspace(0, 7000, 300) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
 
 
 z = scint.odeint(dgl, s0, t) # numerisches Lösen der DGL
 plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
 plt.xlabel("x [m]")
 plt.ylabel("y [m]")
-plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
+plt.title("Lösung der Dgl um den Mond")
 plt.axis("equal")
 plt.show()
