@@ -12,4 +12,4 @@ class Eagle():
 
     def Masse (self, T, t): # Funktion für die varrierende Masse
         m_t = self.m_0 - ((T / self.v_g) * t) # Die varrierende Masse ist definiert als die Differenz zwischen der Gesamtanfangsmasse und der Massenänderung
-        return m_t # Wiedergabe von der varrierten Masse 
+        return m_t # Wiedergabe von der varrierten Masse  
