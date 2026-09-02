@@ -1,0 +1,15 @@
+# DatPro Projektarbeit, Modul "Eagle", welches die Klasse Eagle beinhaltet, erstellt von Liam Felker 31.08.2026
+
+
+# Klasse Eagle
+
+class Eagle():
+
+    def __init__(self, m_0, m_fuel0, v_g): # __init__ Methode um der Klasse "Eagle" folgende Objekte zu Werten zuzuteilen
+        self.m_0 = m_0 # Gesamtanfangsmasse
+        self.m_fuel0 = m_fuel0 # Anfängliche Treibstoffmasse
+        self.v_g = v_g # Geschwindigkeit des ausgestoßenes Gases beim Schub
+
+    def Masse (self, T, t): # Funktion für die varrierende Masse
+        m_t = self.m_0 - ((T / self.v_g) * t) # Die varrierende Masse ist definiert als die Differenz zwischen der Gesamtanfangsmasse und der Massenänderung
+        return m_t # Wiedergabe von der varrierten Masse 
