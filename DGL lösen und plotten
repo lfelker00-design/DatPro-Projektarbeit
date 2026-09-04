@@ -11,7 +11,7 @@ import DatPro_Projekt_constants as const
 import DatPro_Projekt_Schub as schub
 import DatPro_Projekt_Eagle as Eagle
 
-a = [100, 1000, 500]
+a = [100, 1000, 500] # Startwerte für a ohne optimize
 
 eagle = Eagle.Eagle(const.m_0, const.m_fuel0, const.v_g) # Definition von Eagle damit die DGL auf die Klasse Eagle zugreifen kann
 
@@ -20,15 +20,14 @@ def dgl(s, t):
     x, y, v_x, v_y = s # Statevektor
     r = np.sqrt(x**2 + y**2) # Abstand der Erde von der Sonne
 
-    T_x, T_y = schub.schub(t, a) # Schub in x- und y- Richtung
+    T_x, T_y = schub.schub(t, a) # Werte für T in x- und y-Richtung für den Schub
 
     T = np.sqrt(T_x**2 + T_y**2) # Definition von dem Schub T für die Definition von der Masse
     Masse_Eagle = eagle.Masse(T, t) # Definition der Masse von Eagle damit die DGL diese von der Klasse Eagle herausnehmen kann
 
-    a_x = - T_x / Masse_Eagle # Berechnung der DGL für die x-Werte für die Beschleunigung ohne Gravitation des Mondes 
-    a_y = - T_y / Masse_Eagle # Berechnung der DGL für die y-Werte für die Beschleunigung ohne Gravitation des Mondes 
+    a_x = - ( const.GM_mond * x / r**3 ) - T_x / Masse_Eagle  # Berechnung der DGL für die x-Werte für die Beschleunigung
+    a_y = - ( const.GM_mond * y / r**3 ) - T_y / Masse_Eagle  # Berechnung der DGL für die y-Werte für die Beschleunigung
     return [v_x, v_y, a_x, a_y] # Wiedergabe von Geschwindigkeit und Beschleunigung in x- und y-Richtung
-
 
 # Plotten der Landebahn
 
@@ -41,13 +40,13 @@ v_y0 = 0 # Geschwindigkeit v an der Stelle y bei t = 0, Einheit m/s
 
 
 s0 = [x_0, y_0, v_x0, v_y0] # Statevektor mit Anfangsbedingungen
-t = np.linspace(0, 3030, 400) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
+t = np.linspace(0, 1030, 100) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
 
 
 z = scint.odeint(dgl, s0, t) # numerisches Lösen der DGL
 plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
 plt.xlabel("x [m]")
 plt.ylabel("y [m]")
-plt.title("Lösung von Dgl für die numerische Bahn zur Ladung ohne Gravitation")
+plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
 plt.axis("equal")
 plt.show()
