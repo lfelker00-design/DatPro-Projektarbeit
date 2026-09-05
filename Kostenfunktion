@@ -1,0 +1,23 @@
+# DatPro Projektarbeit, Modul "Kostenfunktion", welches geeignete Werte für a berechnet, um den richtigen Schub für die Mondladungung zu finden, erstellt von Liam Felker 04.09.2026
+
+
+# Numerisches Berechnen der Werte a für die Kostenfunktion für T
+
+# Python Module importieren
+import numpy as np
+import scipy.integrate as scint
+from scipy.optimize import minimize
+import DatPro_Projekt_DGL as DGL
+
+def Kostenfunktion(a):
+    Kostenfkt = DGL.scint.odeint(dgl, s0, t, args = (a,))
+
+    v_end_x = DGL.v_x**2
+    v_end_y = DGL.v_y**2
+    
+    return v_end_x, v_end_y
+
+
+print("Kostenfunktion mit a =", a)
+Startwerte = np.array([10, 100, 5])
+geeignete_a_Werte = minimize(v_end_x, v_end_y, Startwerte, method='nelder-mead', options={'xatol': 1, 'disp': True}) 
