@@ -60,7 +60,6 @@ plt.xlabel("x [m]")
 plt.ylabel("y [m]")
 plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
 plt.axis("equal")
-plt.legend(["Treibstoff", "Masse"], loc="upper right", )
 plt.show()
 
 
