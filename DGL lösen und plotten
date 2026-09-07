@@ -33,10 +33,9 @@ def dgl(s, t):
     return [v_x, v_y, a_x, a_y] # Wiedergabe von Geschwindigkeit und Beschleunigung in x- und y-Richtung
 
 
-Startwerte = np.array([10, 100, 5])
-geeignete_a_Werte = minimize(Kostenfkt.v_end, Startwerte, method='nelder-mead', options={'xatol': 1, 'disp': True})
+Startwerte = np.array([10, 100, 5]) # Startwerte für die Werte von a für minimize
+geeignete_a_Werte = minimize(Kostenfkt.v_end, Startwerte, method='nelder-mead', options={'xatol': 1, 'disp': True}) # Die minimize() Funktion, die die Werte von a minimiert 
 
-# Plotten der Landebahn
 
 # Anfangsbedingungen
 
@@ -49,13 +48,12 @@ s0 = [x_0, y_0, v_x0, v_y0] # Statevektor mit Anfangsbedingungen
 t = np.linspace(0, 1030, 100) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
 
 
-fig, ax = plt.subplots(figsize=(6, 6))
-Mond = Circle((0, 0), const.r_mond, facecolor='gray',
-                edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5)
-ax.add_patch(Mond)
+fig, ax = plt.subplots(figsize=(6, 6)) # Figure Größe vom Plot
+Mond = Circle((0, 0), const.r_mond, facecolor='gray', edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5) # Definition von Mond, welcher ein Kreis ist, welches ihren Zentrum im Ursprung haben in grau
+ax.add_patch(Mond) # Mond wird hinzugefügt
 
 
-# Plot wird erstellt
+# Plotten der Landebahn
 z = scint.odeint(dgl, s0, t) # numerisches Lösen der DGL
 plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
 plt.xlabel("x [m]")
