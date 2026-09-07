@@ -4,18 +4,55 @@
 # Numerisches Berechnen der Werte a für die Kostenfunktion für T
 
 # Python Module importieren
-import numpy as np
-import scipy.integrate as scint
-from scipy.optimize import minimize 
-import DatPro_Projekt_DGL as DGL
+
+import numpy as np  # Numpy importieren als "np"zum rechnen
+from scipy.optimize import minimize # "scipy.optimize" importieren als "minimize" zum integrieren
+import scipy.integrate as scint # "scipy.integrate" importieren als "scint" zum integrieren
+
+import matplotlib.pyplot as plt # "matplotlib.pyplot" importieren als "plt" zum erstellen der Plots
+from matplotlib.patches import Circle, PathPatch # Von "matplotlib.patches" "Circle, PathPatch" importieren für den Mond
+
+import DatPro_Projekt_DGL as DGL # Das Modul "DatPro_Projekt_DGL" als "DGL" importieren
+import DatPro_Projekt_constants as const # Das Modul "DatPro_Projekt_constants" als "const" importieren
+
+
 
 # Funktion der Kostenfunktion, welches a übergeben bekommt und die DGL und die Endgeschwindigkeit beinhaltet 
 def Kostenfunktion(a): 
-    Kostenfkt = DGL.scint.odeint(DGL.dgl, DGL.s0, DGL.t, args = (a,)) # Definition der Kostenfunktion "Kostenfkt" die gleich der DGL
+    z = DGL.scint.odeint(DGL.dgl, DGL.s0, DGL.t, args = (a,)) # Definition der Kostenfunktion "Kostenfkt" die gleich der DGL
 
     v_end_x = z[-1, 2] # Definiton von der Endgeschwindigkeit in x-Richtung
     v_end_y = z[-1, 3] # Definiton von der Endgeschwindigkeit in y-Richtung
 
-    v_end = np.sqrt(DGL.v_x**2 + DGL.v_y**2) # Gesamte Endgeschwindigkeit ist die Wurzel aus der Summe von der Endgeschwindigkeit in x-Richtung und y-Richtung quadiert
+    v_end = np.sqrt(v_end_x**2 + v_end_y**2) # Gesamte Endgeschwindigkeit ist die Wurzel aus der quadierte Summe von der Endgeschwindigkeit in x-Richtung und y-Richtung
     
     return v_end # Wiedergabe von der gesamten Endgeschwindigkeit
+
+
+# Optimize für die richtigen a Werte
+Startwerte = np.array([5000, 1000, 1000 ]) # Startwerte für die Werte von a für minimize
+geeignete_a_Werte = minimize(Kostenfunktion, Startwerte, method='nelder-mead',  bounds=[(0, 40000), (0, 47000), (0, 47000)], options={'xatol': 1, 'disp': True}) # Die minimize() Funktion, die die Werte von a minimiert 
+
+
+# Zum Erstellen des Mondes
+fig, ax = plt.subplots(figsize=(6, 6)) # Figure Größe vom Plot
+Mond = Circle((0, 0), const.r_mond, facecolor='gray', edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5) # Definition von Mond, welcher ein Kreis ist, welches ihren Zentrum im Ursprung haben in grau
+ax.add_patch(Mond) # Mond wird hinzugefügt
+
+
+# Plotten der Landebahn
+Werte_Plot = geeignete_a_Werte.x
+z = scint.odeint(DGL.dgl, DGL.s0, DGL.t, args = (Werte_Plot,))
+plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
+plt.xlabel("x [m]")
+plt.ylabel("y [m]")
+plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
+plt.axis("equal")
+plt.show()
+
+
+# Datei mit wählbarem Dateinamen, die geöffnet wird und den Output hineinscheibt
+with open("C:\\Users\\lfelk\\Documents\\DatPro Projekt\\Wählbarer_Dateinamen.txt", "w") as Output: # Datei wird als Output geöffnet
+    for line in Output: # For-Schleife für die Herausgabe
+        content = T, t, Masse.Eagle, z[:, 0], z[:, 1], v_end, T, schub.alpha # Der Content, der geprintet werden soll wird definiert
+        print(content) # Content wird in die Datei geprintet
