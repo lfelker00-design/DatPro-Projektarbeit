@@ -14,6 +14,7 @@ from matplotlib.patches import Circle, PathPatch # Von "matplotlib.patches" "Cir
 
 import DatPro_Projekt_DGL as DGL # Das Modul "DatPro_Projekt_DGL" als "DGL" importieren
 import DatPro_Projekt_constants as const # Das Modul "DatPro_Projekt_constants" als "const" importieren
+import DatPro_Projekt_Schub as schub # Das Modul "DatPro_Projekt_Schub" als "schub" importieren
 
 
 
@@ -35,25 +36,43 @@ geeignete_a_Werte = minimize(Kostenfunktion, Startwerte, method='nelder-mead',  
 
 
 # Zum Erstellen des Mondes
-fig, ax = plt.subplots(figsize=(6, 6)) # Figure Größe vom Plot
-Mond = Circle((0, 0), const.r_mond, facecolor='gray', edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5) # Definition von Mond, welcher ein Kreis ist, welches ihren Zentrum im Ursprung haben in grau
-ax.add_patch(Mond) # Mond wird hinzugefügt
+# fig, ax = plt.subplots(figsize=(6, 6)) # Figure Größe vom Plot
+# Mond = Circle((0, 0), const.r_mond, facecolor='gray', edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5) # Definition von Mond, welcher ein Kreis ist, welches ihren Zentrum im Ursprung haben in grau
+# ax.add_patch(Mond) # Mond wird hinzugefügt
 
 
 # Plotten der Landebahn (Gesamtübersicht)
 Werte_Plot = geeignete_a_Werte.x
 z = scint.odeint(DGL.dgl, DGL.s0, DGL.t, args = (Werte_Plot,))
-plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
-plt.xlabel("x [m]")
-plt.ylabel("y [m]")
-plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
-plt.axis("equal")
+# plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
+plt.xlabel("Zeit t [s]")
+plt.ylabel("Schubrichtung in Grad")
+plt.title("Schubrichtung als Funktion der Zeit")
+# plt.axis("equal")
 
 
 # Zum Plotten von nur der vollständigen Trajektorie mit der angrenzenden Mondoberfläche
-ax.set_xlim(z[:, 0].min() - 100000, z[:, 0].max() + 100000) # Zoom an die Trajektorie in x-Richtung
-ax.set_ylim(z[:, 1].min() - 100000, z[:, 1].max() + 100000) # Zoom an die Trajektorie in y-Richtung
+# ax.set_xlim(z[:, 0].min() - 10, z[:, 0].max() + 10) # Zoom an die Trajektorie in x-Richtung
+# ax.set_ylim(z[:, 1].min() - 10, z[:, 1].max() + 1000) # Zoom an die Trajektorie in y-Richtung
 
+
+# Zum Plotten von die Trajektorie im Landegebiet (±10 km, Mondoberfl¨ache horizontal)
+# ax.set_xlim(z[:, 0].min() - 10000, z[:, 0].max() + 10000) # Zoom an die Trajektorie in x-Richtung
+# ax.set_ylim(const.r_mond - 1000, const.r_mond + 1000) # Zoom an die Trajektorie in y-Richtung
+
+
+# Zum Plotten vom Verlauf der Schubrichtung als Funktion der Zeit
+# t = np.linspace(0, const.t_max, 100) # Definition von der Zeit t
+# T_x, T_y = schub.schub(t, Werte_Plot) # Definition von dem Schub in x-Richtung und y-Richtung
+# T = np.sqrt(T_x**2 + T_y**2) # Definition von T, also die Wurzel aus der quadrierten Summe von T in x-Richtung und y-Richtung 
+# plt.plot(t, T) # Erstellung vom Plot
+
+
+# Zum Plotten vom Verlauf der Schubrichtung als Funktion der Zeit
+# t = np.linspace(0, const.t_max, 100) # Definition von der Zeit t
+# T_x, T_y = schub.schub(t, Werte_Plot) # Definition von dem Schub in x-Richtung und y-Richtung
+# alpha = np.arctan2(T_x, T_y) # Definition von Winkel alpha, also der Tangens von dem Schub in x-Richtung und y-Richtung in Radiant
+# plt.plot(t, alpha) # Erstellung vom Plot
 
 plt.show()
 
