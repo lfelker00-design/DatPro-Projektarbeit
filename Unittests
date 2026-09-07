@@ -1,16 +1,17 @@
 # DatPro Projektarbeit, Modul "Unit-Tests", welches alle Unit-Tests beinhaltet, erstellt von Liam Felker 05.09.2026
 
 
-import unittest
-import DatPro_Projekt_Schub as Schub
-import DatPro_Projekt_Eagle as eagle
-import DatPro_Projekt_Kostenfunktion as Kostenfkt
+# Python Module importieren
+import unittest # Unittests importieren
+import DatPro_Projekt_Schub as Schub # Das Modul "DatPro_Projekt_Schub" als "Schub" importieren
+import DatPro_Projekt_Eagle as eagle # Das Modul "DatPro_Projekt_Eagle" als "eagle" importieren
+import DatPro_Projekt_Kostenfunktion as Kostenfkt # Das Modul "DatPro_Projekt_Kostenfunktion" als "Kostenfkt" importieren
 
 # class für die Tests
 class Test_Eagle_Mondladung(unittest.TestCase):
 
 # Test, der ein ValueError herausgibt, wenn der Schub 47000 N, größer ist als 47000 N oder negativ ist
-    def test_badvalues(self):
+    def test_badvalues_Schub(self):
         self.assertRaises(ValueError, Schub, 50000) # wenn Schub 47000 N, dann ValueError
         self.assertRaises(ValueError, Schub, 47000) # wenn Schub 47000 N, dann ValueError
         self.assertRaises(ValueError, Schub, -1) # wenn Schub -1 N, dann ValueError
@@ -18,7 +19,7 @@ class Test_Eagle_Mondladung(unittest.TestCase):
 Masse_Eagle = eagle.Masse(T, t) # Definition der Masse von Eagle, damit die DGL diese von der Klasse Eagle herausnehmen kann
 
 # Test, der ein ValueError herausgibt, wenn die Masse 14993.75 kg, größer ist als 14993.75 kg oder negativ ist
-    def test_badvalues(self):
+    def test_badvalues_Masse(self):
         self.assertRaises(ValueError, Masse_Eagle, 15000) # wenn Masse 15000 kg, dann ValueError
         self.assertRaises(ValueError, Masse_Eagle, 14993.75) # wenn Masse 14993,73 kg, dann ValueError
         self.assertRaises(ValueError, Masse_Eagle, -1) # wenn Masse -1 kg, dann ValueError
@@ -28,5 +29,5 @@ v_end = Kostenfkt.Kostenfunktion(a) # Definition der Geschwindigkeit v_end von E
 # Test, der prüft, ob die Geschwindigkeit im Intervall von 0 bis 3007 m/s^2 bleibt
     def test_values_Geschwindigkeit(self):
         for w in range(0, 3008): # die range für die maximal Geschwindigkeit
-            self.assertEqual(Kostenfkt.v_end(10), w) # wenn die Geschwindigkeit 10 m/s^2 ist, dann ist es richitg
-            self.assertEqual(Kostenfkt.v_end(3000), w) # wenn die Geschwindigkeit 3000 m/s^2 ist, dann ist es richitg
+            self.assertEqual(Kostenfkt.v_end(10), w) # wenn die Geschwindigkeit 10 m/s^2 ist, dann ist es richtig
+            self.assertEqual(Kostenfkt.v_end(3000), w) # wenn die Geschwindigkeit 3000 m/s^2 ist, dann ist es richtig
