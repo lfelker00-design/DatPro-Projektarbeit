@@ -4,22 +4,17 @@
 # Numerisches Berechnen der Bewegungsgleichung
 
 # Python Module importieren
-import numpy as np
-import scipy.integrate as scint
-import matplotlib.pyplot as plt
-import DatPro_Projekt_constants as const 
-import DatPro_Projekt_Schub as schub
-import DatPro_Projekt_Eagle as Eagle
-from scipy.optimize import minimize
-from matplotlib.patches import Circle, PathPatch
-import DatPro_Projekt_Kostenfunktion as Kostenfkt
+import numpy as np  # Numpy importieren als "np"zum rechnen
+
+import DatPro_Projekt_constants as const # Das Modul "DatPro_Projekt_constants" als "const" importieren
+import DatPro_Projekt_Schub as schub # Das Modul "DatPro_Projekt_Schub" als "Schub" importieren
+import DatPro_Projekt_Eagle as Eagle # Das Modul "DatPro_Projekt_Eagle" als "eagle" importieren
 
 
 eagle = Eagle.Eagle(const.m_0, const.m_fuel0, const.v_g) # Definition von Eagle, damit die DGL auf die Klasse Eagle zugreifen kann
-v_end = Kostenfkt.Kostenfunktion(a)  # Definition der Geschwindigkeit v_end von Eagle, damit der Test diese von dem Modul Kostenfunktion herausnehmen kann
 
 # Funktion der Bewegungsdifferentialgleichung für die Simulation der Bahn zur Ladung auf dem Mond
-def dgl(s, t): 
+def dgl(s, t,a): 
     x, y, v_x, v_y = s # Statevektor
     r = np.sqrt(x**2 + y**2) # Abstand der Erde von der Sonne
 
@@ -33,10 +28,6 @@ def dgl(s, t):
     return [v_x, v_y, a_x, a_y] # Wiedergabe von Geschwindigkeit und Beschleunigung in x- und y-Richtung
 
 
-Startwerte = np.array([10, 100, 5]) # Startwerte für die Werte von a für minimize
-geeignete_a_Werte = minimize(Kostenfkt.v_end, Startwerte, method='nelder-mead', options={'xatol': 1, 'disp': True}) # Die minimize() Funktion, die die Werte von a minimiert 
-
-
 # Anfangsbedingungen
 
 x_0 = 0 # Radiusvektor r an der Stelle x bei t = 0, Einheit in m
@@ -46,25 +37,3 @@ v_y0 = 0 # Geschwindigkeit v an der Stelle y bei t = 0, Einheit m/s
 
 s0 = [x_0, y_0, v_x0, v_y0] # Statevektor mit Anfangsbedingungen
 t = np.linspace(0, 1030, 100) # Array, welches die Werte gleichmäßig verteilt auf einem Jahr
-
-
-fig, ax = plt.subplots(figsize=(6, 6)) # Figure Größe vom Plot
-Mond = Circle((0, 0), const.r_mond, facecolor='gray', edgecolor=(0, 0.8, 0.8), linewidth=3, alpha=0.5) # Definition von Mond, welcher ein Kreis ist, welches ihren Zentrum im Ursprung haben in grau
-ax.add_patch(Mond) # Mond wird hinzugefügt
-
-
-# Plotten der Landebahn
-z = scint.odeint(dgl, s0, t) # numerisches Lösen der DGL
-plt.plot(z[:, 0], z[:, 1]) # Plot wird generiert
-plt.xlabel("x [m]")
-plt.ylabel("y [m]")
-plt.title("Lösung von Dgl für die numerische Bahn zur Ladung auf den Mond")
-plt.axis("equal")
-plt.show()
-
-
-# Datei mit wählbarem Dateinamen, die geöffnet wird und den Output hineinscheibt
-with open("C:\\Users\\lfelk\\Documents\\DatPro Projekt\\Wählbarer_Dateinamen.txt", "w") as Output: # Datei wird als Output geöffnet
-    for line in Output: # For-Schleife für die Herausgabe
-        content = T, t, Masse.Eagle, z[:, 0], z[:, 1], v_end, T, schub.alpha # Der Content, der geprintet werden soll wird definiert
-        print(content) # Content wird in die Datei geprintet
