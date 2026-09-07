@@ -2,10 +2,8 @@
 
 
 # Python Module importieren
-import numpy as np
-import scipy.integrate as scint
-import matplotlib.pyplot as plt
-import DatPro_Projekt_constants as const 
+import numpy as np # Numpy importieren als "np"zum rechnen
+import DatPro_Projekt_constants as const # Das Modul "DatPro_Projekt_constants" als "const" importieren
 
 
 # Funktion des Schubs, um eine kontrolliere Landung zu simulieren
