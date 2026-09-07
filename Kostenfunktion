@@ -6,18 +6,16 @@
 # Python Module importieren
 import numpy as np
 import scipy.integrate as scint
-from scipy.optimize import minimize
+from scipy.optimize import minimize 
 import DatPro_Projekt_DGL as DGL
 
-def Kostenfunktion(a):
-    Kostenfkt = DGL.scint.odeint(dgl, s0, t, args = (a,))
+# Funktion der Kostenfunktion, welches a übergeben bekommt und die DGL und die Endgeschwindigkeit beinhaltet 
+def Kostenfunktion(a): 
+    Kostenfkt = DGL.scint.odeint(DGL.dgl, DGL.s0, DGL.t, args = (a,)) # Definition der Kostenfunktion "Kostenfkt" die gleich der DGL
 
-    v_end_x = DGL.v_x**2
-    v_end_y = DGL.v_y**2
+    v_end_x = z[-1, 2] # Definiton von der Endgeschwindigkeit in x-Richtung
+    v_end_y = z[-1, 3] # Definiton von der Endgeschwindigkeit in y-Richtung
+
+    v_end = np.sqrt(DGL.v_x**2 + DGL.v_y**2) # Gesamte Endgeschwindigkeit ist die Wurzel aus der Summe von der Endgeschwindigkeit in x-Richtung und y-Richtung quadiert
     
-    return v_end_x, v_end_y
-
-
-print("Kostenfunktion mit a =", a)
-Startwerte = np.array([10, 100, 5])
-geeignete_a_Werte = minimize(v_end_x, v_end_y, Startwerte, method='nelder-mead', options={'xatol': 1, 'disp': True}) 
+    return v_end # Wiedergabe von der gesamten Endgeschwindigkeit
